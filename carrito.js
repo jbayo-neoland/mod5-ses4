@@ -4,10 +4,12 @@ module.exports = class Carrito {
   }
 
   addProduct(product) {
+    // todo add control of a product
     this.items.push(product);
   }
 
   removeProduct(product) {
+    // todo should not remove by id, it shoul remove by uuid
     this.items = this.items.filter(e => e.id !== product.id);
   }
 
@@ -16,6 +18,7 @@ module.exports = class Carrito {
   }
 
   getTotalCheckout(){
+    // todo tests not passing
     return this.items.reduce((prev, curr) => prev.price += curr.price);
   }
 }
