@@ -9,6 +9,10 @@ describe('Testing Carrito class', () => {
     expect(carrito.items).toBeDefined();
     expect(carrito.item).not.toBeDefined();
   })
+
+})
+
+describe('Testing addProduct', () => {
   it('should add product to carrito', () => {
     let product = {
       "id": "23123",
@@ -27,6 +31,10 @@ describe('Testing Carrito class', () => {
     )
 
   })
+
+})
+
+describe('Testing removeProduct', () => {
   it('should remove product to carrito', () => {
     let product = {
       "id": "23123",
@@ -46,6 +54,9 @@ describe('Testing Carrito class', () => {
     )
 
   })
+})
+
+describe('Testing getTotalItems', () => {
   it('should return totalItems', () => {
     let carrito = new Carrito();
     let newProduct = {
@@ -58,7 +69,9 @@ describe('Testing Carrito class', () => {
     let total = carrito.getTotalItems();
     expect(total).toEqual(3);
   });
+})
 
+describe('Testing getTotalCheckout', () => {
   it('should return checkout', () => {
     let carrito = new Carrito();
     let newProduct = {
@@ -74,6 +87,4 @@ describe('Testing Carrito class', () => {
     let checkout = carrito.getTotalCheckout();
     expect(checkout).toEqual(40);
   });
-
-
 })
