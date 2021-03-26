@@ -1,5 +1,21 @@
 module.exports = class Carrito {
-  constructor(){
+  constructor() {
     this.items = [];
   }
-}
+
+  addProduct(product) {
+    this.items.push(product);
+  }
+
+  removeProduct(product) {
+    this.items = this.items.filter((e) => e.id !== product.id);
+  }
+
+  getTotalItems() {
+    return this.items.length;
+  }
+
+  getTotalCheckOut() {
+    return this.items.reduce((prev, curr) => (prev.price += curr.price));
+  }
+};
