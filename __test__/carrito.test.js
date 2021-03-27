@@ -36,7 +36,7 @@ describe("Testing getTotalItems", () => {
   });
 });
 
-describe("Testing getTotalItems", () => {
+describe("Testing getTotalCheckOut", () => {
   it("should return all products from the cart", () => {
     let carrito = new Carrito();
     carrito.addProduct({ item: "agua", price: 10 });
@@ -45,7 +45,7 @@ describe("Testing getTotalItems", () => {
     for (let index = 0; index < carrito.items.length; index++) {
       checkout = checkout + carrito.items[index].price;
     }
-    const totalprecio = carrito.getTotalCheckout();
-    expect(totalprecio).toEqual(checkout);
+    const totalprecio = carrito.getTotalCheckOut();
+    expect(totalprecio).toEqual(30);
   });
 });
