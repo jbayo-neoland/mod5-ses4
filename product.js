@@ -1,4 +1,6 @@
-module.exports = class Product {
+const Item = require('item');
+
+module.exports = class Product extends Item{
   constructor(
     id,
     name,
