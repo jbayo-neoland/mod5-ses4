@@ -1,10 +1,10 @@
 const axios = require('axios');
 
-const END_POINT = 'https://jsonplaceholder.typicode.com/';
+const END_POINT = 'https://jsonplaceholder.typicode.com';
 class User {
 
   static all() {
-    return axios.get('/users').then(resp => resp.data);
+    return axios.get(`${END_POINT}/users`).then(resp => resp.data);
   }
 }
 
