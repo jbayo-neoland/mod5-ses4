@@ -178,6 +178,7 @@ describe('Testing Carrito class', () => {
     it.todo('should throw an error when trying to add twice a coupon that is unique');
     it.todo('should throw an error when trying to add a coupon if we have already one that is unique');
     it.todo('should throw an error when trying to add a unique coupon if we have already one coupon');
+    it.todo('should throw an error when trying to add an invalid coupon');
   });
 
   describe('testing removeCoupon', () => {
