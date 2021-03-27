@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid')
+
 module.exports = class Carrito {
   constructor(){
     this.items = [];
@@ -5,7 +7,13 @@ module.exports = class Carrito {
 
   addProduct(product) {
     // todo add control of a product
+    if (typeof product !== 'object') {
+      throw new Error('product must be an object');
+    }
+    product.uuid = uuidv4();
     this.items.push(product);
+
+    return product;
   }
 
   removeProduct(product) {
@@ -19,6 +27,6 @@ module.exports = class Carrito {
 
   getTotalCheckout(){
     // todo tests not passing
-    return this.items.reduce((prev, curr) => prev.price += curr.price);
+    return this.items.reduce((acc, curr) => acc = acc + curr.price, 0);
   }
 }

@@ -17,6 +17,9 @@ describe('Testing Carrito class', () => {
   })
 
   describe('testing addProduct', () => {
+
+    it.todo('should throw an error if we add a product that is not an object');
+
     it('should have one product after adding one product', () => {
        carrito.addProduct(switchProduct);
        expect(carrito.items.length).toBe(1)
