@@ -1,5 +1,6 @@
 const Carrito = require('../carrito');
 const Product = require('../product');
+const Coupon = require('../coupon');
 
 describe('Testing Carrito class', () => {
   let carrito = {};
@@ -7,6 +8,10 @@ describe('Testing Carrito class', () => {
   let switchProduct = new Product(1, 'Switch', 239, 'console');
   let segaProduct = new Product(2, 'Sega', 99, 'console');
   let incorrectItem = {id: 2, productName: 'Sega', price: 99};
+
+  let couponPercent = new Coupon(1, '10% off on consoles', 10, 'console', true, false);
+  let couponTotal = new Coupon(2, '10€ off on consoles', 10, 'console', false, false);
+  let couponUnique = new Coupon(3, '20€ off on total', 10, null, false, true);
 
   beforeEach(() => {
     carrito = new Carrito();
@@ -160,6 +165,24 @@ describe('Testing Carrito class', () => {
       carrito.addProduct(switchProduct);
       expect(carrito.getTotalCheckout()).toBe(338);
     })
+    it.todo('should return 216 for a carrito with switch and a 10% coupon discount for switch');
+    it.todo('should return 229 for a carrito with switch and a 10€ coupon discount for switch');
+    it.todo('should return 328 for a carrito with switch and sega and a 10€ coupon discount for switch');
+    it.todo('should return 318 for a carrito with switch and sega and a 10€ coupon discount for switch');
   })
+
+  describe('testing addCoupon', () => {
+    it.todo('should throw an error when trying to add something that is not a coupon object');
+    it.todo('should return an added coupon');
+    it.todo('carrito should contain an added coupon');
+    it.todo('should throw an error when trying to add twice a coupon that is unique');
+    it.todo('should throw an error when trying to add a coupon if we have already one that is unique');
+    it.todo('should throw an error when trying to add a unique coupon if we have already one coupon');
+  });
+
+  describe('testing removeCoupon', () => {
+    it.todo('should throw an error when trying to remove something that is not a coupon object');
+    it.todo('should remove an added coupon');
+  });
 
 })

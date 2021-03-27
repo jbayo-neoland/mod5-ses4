@@ -1,4 +1,4 @@
-const Item = require('item');
+const Item = require('./item');
 
 module.exports = class Product extends Item{
   constructor(
@@ -13,24 +13,8 @@ module.exports = class Product extends Item{
     ean = null,
     size = null,
     composition = null) {
-
-      if (!id) {
-        throw new Error('id must be set');
-      }
-      if (!name) {
-        throw new Error('name must be set');
-      }
-      if (!price) {
-        throw new Error('price must be set');
-      }
-      if (!category) {
-        throw new Error('category must be set');
-      }
-
-      this.id = id;
-      this.name = name;
-      this.price = price;
-      this.category = category;
+      super(id, name, price, category);
+      
       this.sales = sales;
       this.stock = stock;
       this.origin = origin;

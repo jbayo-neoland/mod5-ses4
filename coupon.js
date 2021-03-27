@@ -1,5 +1,5 @@
-const Item = require('item');
-module.exports = class Coupons extends Item{
+const Item = require('./item');
+module.exports = class Coupon extends Item{
   constructor(
     id,
     name,
@@ -10,13 +10,12 @@ module.exports = class Coupons extends Item{
     expire_date,
     description = null
   ){
-    this.id = id;
-    this.name = name;
-    this.price = price;
-    this.category = category;
+    super(id, name, price, category);
     this.relative = relative; // boolean
     this.unique = unique; // boolean
     this.expire_date = expire_date // Date or null;
     this.description = description;
   }
+
+  
 }

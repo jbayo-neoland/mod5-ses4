@@ -1,5 +1,7 @@
 const { v4: uuidv4, } = require('uuid')
 const Product = require('./product');
+const Coupon = require('./coupon');
+const Item = require('./item');
 
 module.exports = class Carrito {
   constructor(){
@@ -14,15 +16,7 @@ module.exports = class Carrito {
     if (!(product instanceof Product)){
       throw new Error('product is not of type Product');
     }
-    // product.uuid = uuidv1({
-    //
-    //   nsecs: Math.floor(Math.random() * 10000)
-    // });
-    product.uuid = uuidv4();
-    //product.uuid = Math.random();
-    this.items.push(product);
-
-    return product;
+    return this.addItem(product);
   }
 
   removeProduct(product) {
@@ -40,5 +34,33 @@ module.exports = class Carrito {
   getTotalCheckout(){
     // todo tests not passing
     return this.items.reduce((acc, curr) => acc = acc + curr.price, 0);
+  }
+
+  addCoupon(coupon){
+    if (!(coupon instanceof Coupon)){
+      throw new Error('coupon is not of type Coupon');
+    }
+
+    const alreadyHaveCoupons = this.items.find(e => e instanceof Coupon);
+    if (alreadyHaveCoupons && coupon.unique) {
+      throw new Error('coupon is unique and is already in the list of items');
+    }
+    return this.addItem(coupon);
+  }
+
+  removeCoupon(coupon){
+    if (!(coupon instanceof Coupon)){
+      throw new Error('coupon is not of type Coupon');
+    }
+    this.items = this.items.filter(e => e.uuid !== coupon.uuid);
+  }
+
+  addItem(item) {
+    if (!(item instanceof Item)){
+      throw new Error('item is not of type Item');
+    }
+    item.uuid = uuidv4();
+    this.items.push(item);
+    return item;
   }
 }
