@@ -17,5 +17,15 @@ module.exports = class Coupon extends Item{
     this.description = description;
   }
 
-  
+  isValid() {
+    return new Promise((resolve, reject) => {
+      if (this.expire_date) {
+        const now = new Date();
+        if (this.expire_date.getTime() < now.getTime()) {
+          reject('coupon expired');
+        }
+      }
+      resolve(true);
+    })
+  }
 }
