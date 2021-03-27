@@ -1,10 +1,12 @@
 const Carrito = require('../carrito');
+const Product = require('../product');
 
 describe('Testing Carrito class', () => {
   let carrito = {};
 
-  let switchProduct = {id: 1, name: 'Switch', price: 239};
-  let segaProduct = {id: 2, productName: 'Sega', price: 99};
+  let switchProduct = new Product(1, 'Switch', 239, 'console');
+  let segaProduct = new Product(2, 'Sega', 99, 'console');
+  let incorrectItem = {id: 2, productName: 'Sega', price: 99};
 
   beforeEach(() => {
     carrito = new Carrito();
@@ -18,14 +20,32 @@ describe('Testing Carrito class', () => {
 
   describe('testing addProduct', () => {
 
-    it.todo('should throw an error if we add a product that is not an object');
+    // Tests added:
+    it('should throw an error if we add a product that is not an object', () => {
+      expect(() => carrito.addProduct('')).toThrow('product must be an object');
+    })
 
-    it('should have one product after adding one product', () => {
+    it('should throw an error if we add a product that is not a product object', () => {
+      expect(() => carrito.addProduct(incorrectItem)).toThrow('product is not of type Product');
+    })
+
+    it('should return a new added product', () => {
+      expect(carrito.addProduct(switchProduct)).toMatchObject(switchProduct);
+    })
+
+    it("should have the added product in carrito.items", () => {
+      carrito.addProduct(segaProduct);
+      expect(carrito.items).toContainEqual(segaProduct);
+    });
+
+    // --------------
+
+    xit('should have one product after adding one product', () => {
        carrito.addProduct(switchProduct);
        expect(carrito.items.length).toBe(1)
     });
 
-    it('should have 3 products after adding 3 product', () => {
+    xit('should have 3 products after adding 3 product', () => {
       carrito.addProduct(switchProduct);
       carrito.addProduct(switchProduct);
       carrito.addProduct(segaProduct);
@@ -48,7 +68,7 @@ describe('Testing Carrito class', () => {
       expect(carrito.items[0].name).toEqual('Switch')
     });
 
-    xit('should have a product with name Sega', () => {
+    it('should have a product with name Sega', () => {
       carrito.addProduct(segaProduct);
       expect(carrito.items[0].name).toEqual('Sega')
     })
@@ -56,30 +76,32 @@ describe('Testing Carrito class', () => {
   });
 
   describe('testing removeProduct', () => {
-    it('should have 0 products when removing a product', () => {
-      carrito.removeProduct({id: 1, name: ''})
-      expect(carrito.items.length).toBe(0);
+    it('should throw an error when trying to remove an object that is not a Product', () => {
+
+      expect(() => carrito.removeProduct({id: 1, name: ''})).toThrow('product is not of type Product');
     })
 
     it('should have 1 product when removing a product from a list of switch, sega', () => {
-      carrito.addProduct(switchProduct);
-      carrito.addProduct(segaProduct);
-      carrito.removeProduct(switchProduct)
+      const switchProduct1 = carrito.addProduct(switchProduct);
+      const segaProduct1 = carrito.addProduct(segaProduct);
+      carrito.removeProduct(switchProduct1)
       expect(carrito.items.length).toBe(1);
     })
 
     it('should have a product with name Switch when removing a segaProduct from a list of switch, sega', () => {
-      carrito.addProduct(switchProduct);
-      carrito.addProduct(segaProduct);
-      carrito.removeProduct(segaProduct)
+      const switchProduct1 = carrito.addProduct(switchProduct);
+      const segaProduct1 = carrito.addProduct(segaProduct);
+      carrito.removeProduct(segaProduct1)
       expect(carrito.items[0].name).toEqual('Switch');
     })
 
-    xit('should have 2 products with when removing a switchProduct from a list of switch, switch, sega', () => {
-      carrito.addProduct(switchProduct);
-      carrito.addProduct(switchProduct);
-      carrito.addProduct(segaProduct);
-      carrito.removeProduct(switchProduct)
+    it('should have 2 products with when removing a switchProduct from a list of switch, switch, sega', () => {
+      const switchProduct1 = carrito.addProduct(switchProduct);
+      const segaProduct1 = carrito.addProduct(segaProduct);
+      let newSwitchProduct = Object.assign(Object.create(Object.getPrototypeOf(switchProduct)), switchProduct)
+      const switchProduct2 = carrito.addProduct(newSwitchProduct);
+      // const switchProduct2 = carrito.addProduct(switchProduct);
+      carrito.removeProduct(switchProduct2)
       expect(carrito.items.length).toEqual(2);
     })
 

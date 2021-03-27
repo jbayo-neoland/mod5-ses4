@@ -1,4 +1,5 @@
-const { v4: uuidv4 } = require('uuid')
+const { v4: uuidv4, } = require('uuid')
+const Product = require('./product');
 
 module.exports = class Carrito {
   constructor(){
@@ -10,7 +11,15 @@ module.exports = class Carrito {
     if (typeof product !== 'object') {
       throw new Error('product must be an object');
     }
+    if (!(product instanceof Product)){
+      throw new Error('product is not of type Product');
+    }
+    // product.uuid = uuidv1({
+    //
+    //   nsecs: Math.floor(Math.random() * 10000)
+    // });
     product.uuid = uuidv4();
+    //product.uuid = Math.random();
     this.items.push(product);
 
     return product;
@@ -18,7 +27,10 @@ module.exports = class Carrito {
 
   removeProduct(product) {
     // todo should not remove by id, it shoul remove by uuid
-    this.items = this.items.filter(e => e.id !== product.id);
+    if (!(product instanceof Product)){
+      throw new Error('product is not of type Product');
+    }
+    this.items = this.items.filter(e => e.uuid !== product.uuid);
   }
 
   getTotalItems(){
