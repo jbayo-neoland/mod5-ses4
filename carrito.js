@@ -32,8 +32,16 @@ module.exports = class Carrito {
   }
 
   getTotalCheckout(){
-    // todo tests not passing
-    return this.items.reduce((acc, curr) => acc = acc + curr.price, 0);
+    let total = this.items
+    .filter(e => e instanceof Product)
+    .reduce((acc, curr) => acc = acc + curr.price, 0);
+
+    // apply discounts
+    this.items.filter(e => e instanceof Coupon)
+    .forEach(item => {
+      total -= item.relative ? total*item.price/100 : item.price;
+    })
+    return total;
   }
 
   addCoupon(coupon){
@@ -44,6 +52,11 @@ module.exports = class Carrito {
     const alreadyHaveCoupons = this.items.find(e => e instanceof Coupon);
     if (alreadyHaveCoupons && coupon.unique) {
       throw new Error('coupon is unique and is already in the list of items');
+    }
+    // this is new =)
+    const alreadyHaveUniqueCoupon = this.items.find(e => e instanceof Coupon && e.unique);
+    if (alreadyHaveUniqueCoupon) {
+      throw new Error('there is already a unique coupon, no more coupons can be added');
     }
     return this.addItem(coupon);
   }

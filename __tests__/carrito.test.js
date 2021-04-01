@@ -11,8 +11,7 @@ describe('Testing Carrito class', () => {
 
   let couponPercent = new Coupon(1, '10% off on consoles', 10, 'console', true, false);
   let couponTotal = new Coupon(2, '10€ off on consoles', 10, 'console', false, false);
-  let couponUnique = new Coupon(3, '20€ off on total', 10, null, false, true);
-
+  let couponUnique = new Coupon(3, '20€ off on total', 20, null, false, true);
   beforeEach(() => {
     carrito = new Carrito();
   })
@@ -165,25 +164,73 @@ describe('Testing Carrito class', () => {
       carrito.addProduct(switchProduct);
       expect(carrito.getTotalCheckout()).toBe(338);
     })
-    it.todo('should return 216 for a carrito with switch and a 10% coupon discount for switch');
-    it.todo('should return 229 for a carrito with switch and a 10€ coupon discount for switch');
-    it.todo('should return 328 for a carrito with switch and sega and a 10€ coupon discount for switch');
-    it.todo('should return 318 for a carrito with switch and sega and a 10€ coupon discount for switch');
+    it('should return 215.1 for a carrito with switch and a 10% coupon discount for switch', () => {
+      carrito.addProduct(switchProduct);
+      carrito.addCoupon(couponPercent);
+      expect(carrito.getTotalCheckout()).toBe(215.1);
+    });
+    it('should return 229 for a carrito with switch and a 10€ coupon discount for switch', () => {
+      carrito.addProduct(switchProduct);
+      carrito.addCoupon(couponTotal);
+      expect(carrito.getTotalCheckout()).toBe(229);
+    });
+    it('should return 328 for a carrito with switch and sega and a 10€ coupon discount for switch', () => {
+      carrito.addProduct(switchProduct);
+      carrito.addProduct(segaProduct);
+      carrito.addCoupon(couponTotal);
+      expect(carrito.getTotalCheckout()).toBe(328);
+    });
+    it('should return 318 for a carrito with switch and sega and a 20€ coupon discount for switch', () => {
+      carrito.addProduct(switchProduct);
+      carrito.addProduct(segaProduct);
+      carrito.addCoupon(couponUnique);
+      expect(carrito.getTotalCheckout()).toBe(318);
+    });
   })
 
   describe('testing addCoupon', () => {
-    it.todo('should throw an error when trying to add something that is not a coupon object');
-    it.todo('should return an added coupon');
-    it.todo('carrito should contain an added coupon');
-    it.todo('should throw an error when trying to add twice a coupon that is unique');
-    it.todo('should throw an error when trying to add a coupon if we have already one that is unique');
-    it.todo('should throw an error when trying to add a unique coupon if we have already one coupon');
-    it.todo('should throw an error when trying to add an invalid coupon');
+    it('should throw an error when trying to add something that is not a coupon object', () => {
+      expect(() => carrito.addCoupon('')).toThrow('coupon is not of type Coupon');
+      expect(() => carrito.addCoupon({id: ''})).toThrow('coupon is not of type Coupon');
+    });
+    it('should return an added coupon', () => {
+      let c = carrito.addCoupon(couponUnique);
+      expect(c).toMatchObject(couponUnique);
+    });
+    it('carrito should contain an added coupon', () => {
+      let c = carrito.addCoupon(couponUnique);
+      expect(carrito.items).toContainEqual(couponUnique);
+    });
+    it('should throw an error when trying to add twice a coupon that is unique', () => {
+      let c = carrito.addCoupon(couponUnique);
+      expect(() => carrito.addCoupon(couponUnique)).toThrowError();
+    });
+    it('should throw an error when trying to add a coupon if we have already one that is unique', () => {
+      let c = carrito.addCoupon(couponUnique);
+      expect(() => carrito.addCoupon(couponPercent)).toThrowError();
+    });
+    it('should throw an error when trying to add a unique coupon if we have already one coupon', () => {
+      let c = carrito.addCoupon(couponPercent);
+      expect(() => carrito.addCoupon(couponUnique)).toThrowError();
+    });
+    xit(`should throw an error when trying to add an invalid coupon:
+      Not responsibility of carrito to check if the coupon itself is valid or not, it should be part of an integration test`, () => {
+      expect(() => carrito.addCoupon(couponUnique)).toThrowError();
+    });
   });
 
   describe('testing removeCoupon', () => {
-    it.todo('should throw an error when trying to remove something that is not a coupon object');
-    it.todo('should remove an added coupon');
+    it('should throw an error when trying to remove something that is not a coupon object', () => {
+      expect(() => carrito.removeCoupon('')).toThrowError();
+      expect(() => carrito.removeCoupon({})).toThrowError();
+      expect(() => carrito.removeCoupon(segaProduct)).toThrowError();
+      expect(() => carrito.removeCoupon(null)).toThrowError();
+    });
+    it('should remove an added coupon', () => {
+      let coupon = carrito.addCoupon(couponTotal);
+      let removedCoupon = carrito.removeCoupon(coupon);
+      expect(carrito.items).not.toContainEqual(removedCoupon);
+    });
   });
 
 })
